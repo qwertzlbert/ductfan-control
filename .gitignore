@@ -1,0 +1,6 @@
+venv/
+epoxyduino/
+.vscode/
+catch2/
+build/
+CMakeFiles/
