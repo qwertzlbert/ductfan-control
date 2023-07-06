@@ -14,6 +14,8 @@
 
 ## CMAKE
 
+ESP-IDF tools
+
 ```
 cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug -H.
 cmake -Bbuild -H.

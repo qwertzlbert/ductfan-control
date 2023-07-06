@@ -1,6 +1,5 @@
 #include "../../src/DuctFanControl.h"
 #include "Catch2TestWithMainAndGMock.hpp"
-#include "MockScopeGuard.hpp"
 
 #include <memory>
 
@@ -25,6 +24,14 @@ TEST_CASE("Test Sensors", "[devices]") {
 
     REQUIRE(sensor.get_current_value() == 0);
   }
+  SECTION("StatefullEzButton") {
+
+    // Only test if class can be instantiated. Otherwise this would require to
+    // override the non-virtual ezButton class which is not worth it
+    StatefullEzButton sensor(2);
+
+    REQUIRE(sensor.get_current_value() == 0);
+  }
 }
 
 TEST_CASE("Test Outputs", "[devices]") {
@@ -37,7 +44,7 @@ TEST_CASE("Test Outputs", "[devices]") {
 }
 
 TEST_CASE("Test Devices", "[devices]") {
-  SECTION("Statefull Button") {
+  SECTION("Button") {
 
     auto sensor = std::make_unique<MockSensor>();
     // MockSensor sensor;
@@ -49,10 +56,53 @@ TEST_CASE("Test Devices", "[devices]") {
         .WillRepeatedly(Return(42));
 
     // init button
-    StatefullButton button(std::move(sensor));
+    Button button(std::move(sensor));
 
     REQUIRE(button.get_value() == 0);
     REQUIRE(button.get_value() == 1);
     REQUIRE(button.get_value() == 1);
+
+    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(sensor.get()));
+  }
+
+  SECTION("BoolStateInfo") {
+
+    auto output = std::make_unique<MockOutput>();
+
+    EXPECT_CALL(*output, set_value(10)).Times(AtLeast(1));
+
+    BoolStateInfo statusLight(std::move(output));
+
+    // initial state should be 0
+    REQUIRE(statusLight.get_value() == 0);
+
+    statusLight.set_value(10);
+
+    // after toggle it should be 1
+    REQUIRE(statusLight.get_value() == 1);
+    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(output.get()));
+  }
+
+  SECTION("Fan") {
+    auto output = std::make_unique<MockOutput>();
+    auto sensor = std::make_unique<MockSensor>();
+
+    EXPECT_CALL(*output, set_value(10)).Times(AtLeast(1));
+
+    EXPECT_CALL(*sensor, get_current_value())
+        .Times(AtLeast(1))
+        .WillOnce(Return(0))
+        .WillRepeatedly(Return(3000));
+
+    Fan ductFan(std::move(sensor), std::move(output));
+
+    ductFan.set_value(10);
+
+    REQUIRE(ductFan.get_value() == 0);
+    REQUIRE(ductFan.get_value() == 3000);
+    REQUIRE(ductFan.get_value() == 3000);
+
+    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(sensor.get()));
+    EXPECT_TRUE(testing::Mock::VerifyAndClearExpectations(output.get()));
   }
 }
