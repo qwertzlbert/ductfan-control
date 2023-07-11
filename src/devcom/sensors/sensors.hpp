@@ -4,7 +4,7 @@
 #include <memory>
 
 // for arduino
-#include <ezButton.h>
+// #include <ezButton.h>
 
 namespace ductfan_control {
 
@@ -25,14 +25,14 @@ public:
 };
 
 // state aware button using ezButton library
-class StatefullEzButton : public BaseSensor {
+// class StatefullEzButton : public BaseSensor {
 
-  std::unique_ptr<ezButton> m_button;
+//   std::unique_ptr<ezButton> m_button;
 
-public:
-  StatefullEzButton(int pin);
-  int get_current_value();
-};
+// public:
+//   StatefullEzButton(int pin);
+//   int get_current_value();
+// };
 
 } // namespace ductfan_control
 

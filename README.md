@@ -15,6 +15,9 @@
 ## CMAKE
 
 ESP-IDF tools
+- pull project
+- install compiler via setup
+- set paths
 
 ```
 cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug -H.
@@ -22,6 +25,13 @@ cmake -Bbuild -H.
 cmake --build build cmake --build build --parallel 23
 cmake --build build --target test
 
+-DCMAKE_TOOLCHAIN_FILE=/home/simon/Projekte/ductfan-control/build/_deps/esp-src/tools/cmake/toolchain-esp32.cmake -DTARGET=esp32
+
+  PATH="${PATH}:/home/simon/Downloads/xtensa-esp32-elf/bin/"
+
+PATH="${PATH}:~/.espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/" IDF_PATH=/home/simon/Projekte/ductfan-control/build/_deps/esp-src cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug -H. -DCMAKE_TOOLCHAIN_FILE=/home/simon/Projekte/ductfan-control/build-bak/_deps/esp-src/tools/cmake/toolchain-esp32.cmake -DTARGET=esp32
+
+PATH="${PATH}:~/.espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32-elf/bin/" IDF_PATH=/home/simon/Projekte/ductfan-control/build/_deps/esp-src cmake cmake --build build --parallel 23 -DCMAKE_TOOLCHAIN_FILE=/home/simon/Projekte/ductfan-control/build-bak/_deps/esp-src/tools/cmake/toolchain-esp32.cmake -DTARGET=esp32
 ```
 
 ## Eventing

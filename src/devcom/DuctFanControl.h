@@ -2,7 +2,7 @@
 #define DUCTFAN_CONTROL
 
 // #include "buttons/button_handler.h"
-#include "Devices/Devices.hpp"
+#include "devices/devices.hpp"
 #include "eventing/eventHandlers/eventHandlers.hpp"
 #include "eventing/eventManager/eventManager.hpp"
 #include "eventing/eventMessages/eventMessages.hpp"

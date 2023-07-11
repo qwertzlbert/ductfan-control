@@ -1,4 +1,4 @@
-#include "Devices.hpp"
+#include "devices.hpp"
 
 namespace ductfan_control {
 

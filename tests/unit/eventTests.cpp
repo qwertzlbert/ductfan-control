@@ -1,5 +1,5 @@
 
-#include "../../src/DuctFanControl.h"
+#include "../../src/devcom/DuctFanControl.h"
 #include <catch2/catch.hpp>
 
 #include <memory>

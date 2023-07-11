@@ -1,0 +1,5 @@
+add_subdirectory("eventHandlers")
+add_subdirectory("eventManager")
+add_subdirectory("eventMessages")
+add_subdirectory("handlerQueues")
+add_subdirectory("eventQueues")
