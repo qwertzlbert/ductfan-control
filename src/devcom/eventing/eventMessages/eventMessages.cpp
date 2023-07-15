@@ -1,6 +1,6 @@
 #include "eventMessages.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 SimpleMessage::SimpleMessage(std::vector<std::vector<std::string>> message) {
   uuid_t uuid_native;
@@ -18,4 +18,4 @@ SimpleMessage::SimpleMessage(std::vector<std::vector<std::string>> message) {
   }
 }
 
-} // namespace ductfan_control
+} // namespace devcom

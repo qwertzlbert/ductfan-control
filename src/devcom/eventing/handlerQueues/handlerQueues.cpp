@@ -1,6 +1,6 @@
 #include "handlerQueues.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 SimpleHandlerQueue::SimpleHandlerQueue(int queue_size) {
   uuid_t uuid_native;
@@ -31,4 +31,4 @@ void SimpleHandlerQueue::addHandler(std::unique_ptr<BaseHandler> handler) {
   }
 };
 
-} // namespace ductfan_control
+} // namespace devcom

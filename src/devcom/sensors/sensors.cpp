@@ -1,6 +1,6 @@
 #include "sensors.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 DummySensor::DummySensor(){};
 
@@ -14,4 +14,4 @@ DummySensor::DummySensor(){};
 //   return m_button->getState();
 // };
 
-} // namespace ductfan_control
+} // namespace devcom

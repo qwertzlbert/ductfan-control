@@ -10,7 +10,7 @@
 
 #include "eventing/eventHandlers/eventHandlers.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 class HandlerQueue {
 public:
@@ -38,5 +38,5 @@ public:
   void addHandler(std::unique_ptr<BaseHandler> handler);
 };
 
-} // namespace ductfan_control
+} // namespace devcom
 #endif

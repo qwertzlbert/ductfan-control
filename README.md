@@ -35,3 +35,13 @@ PATH="${PATH}:~/.espressif/tools/xtensa-esp32-elf/esp-2022r1-11.2.0/xtensa-esp32
 ```
 
 ## Eventing
+
+
+
+TODO
+
+try:
+- https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#using-esp-idf-in-custom-cmake-projects
+and add target for ESP
+
+- add ESP specific unit tests (https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/unit-tests.html)

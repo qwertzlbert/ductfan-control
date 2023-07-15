@@ -6,7 +6,7 @@
 // for arduino
 // #include <ezButton.h>
 
-namespace ductfan_control {
+namespace devcom {
 
 // implements an internal interface to abstract away
 // external dependencies
@@ -34,6 +34,6 @@ public:
 //   int get_current_value();
 // };
 
-} // namespace ductfan_control
+} // namespace devcom
 
 #endif

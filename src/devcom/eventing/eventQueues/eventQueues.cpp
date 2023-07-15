@@ -1,6 +1,6 @@
 #include "eventQueues.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 SimpleFiFoQueue::SimpleFiFoQueue(int queue_size, int queue_type) {
   uuid_t uuid_native;
@@ -84,4 +84,4 @@ std::unique_ptr<BaseMessage> SimpleFiFoQueue::pop_event() {
   return std::move(event);
 }
 
-} // namespace ductfan_control
+} // namespace devcom

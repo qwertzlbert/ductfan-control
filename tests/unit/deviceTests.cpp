@@ -1,9 +1,9 @@
-#include "../../src/devcom/DuctFanControl.h"
+#include "../../src/devcom/DevCom.h"
 #include "Catch2TestWithMainAndGMock.hpp"
 
 #include <memory>
 
-using namespace ductfan_control;
+using namespace devcom;
 using ::testing::AtLeast;
 using ::testing::Return;
 

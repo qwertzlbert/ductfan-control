@@ -12,7 +12,7 @@
 #include "eventing/eventQueues/eventQueues.hpp"
 #include "eventing/handlerQueues/handlerQueues.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 // ABC for EventManagers
 class EventManager {
@@ -43,5 +43,5 @@ public:
   void removeHandler(std::string handler_id);
 };
 
-}; // namespace ductfan_control
+}; // namespace devcom
 #endif

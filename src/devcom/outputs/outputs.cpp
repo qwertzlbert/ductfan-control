@@ -1,6 +1,6 @@
 #include "outputs.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 DummyOutput::DummyOutput(){};
 
@@ -32,4 +32,4 @@ DummyOutput::DummyOutput(){};
 
 // void Esp32PwmHighSpeed::set_value(int value){};
 
-} // namespace ductfan_control
+} // namespace devcom

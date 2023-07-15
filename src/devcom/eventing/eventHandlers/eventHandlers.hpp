@@ -12,7 +12,7 @@
 
 #include "eventing/eventMessages/eventMessages.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 // ABC handler
 class BaseHandler {
@@ -35,6 +35,6 @@ public:
   bool execute_callback(std::shared_ptr<BaseMessage> message);
 };
 
-} // namespace ductfan_control
+} // namespace devcom
 
 #endif

@@ -1,6 +1,6 @@
 #include "eventManager.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 SimpleEventManager::SimpleEventManager() {
   uuid_t uuid_native;
@@ -89,4 +89,4 @@ void SimpleEventManager::processEvent() {
   }
 }
 
-} // namespace ductfan_control
+} // namespace devcom

@@ -1,11 +1,11 @@
 
-#include "../../src/devcom/DuctFanControl.h"
+#include "../../src/devcom/DevCom.h"
 #include <catch2/catch.hpp>
 
 #include <memory>
 #include <stdexcept>
 
-using namespace ductfan_control;
+using namespace devcom;
 
 int call_count = 0;
 void test_callback(int param) { call_count++; }

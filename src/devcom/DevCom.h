@@ -1,5 +1,5 @@
-#ifndef DUCTFAN_CONTROL
-#define DUCTFAN_CONTROL
+#ifndef DEVCOM
+#define DEVCOM
 
 // #include "buttons/button_handler.h"
 #include "devices/devices.hpp"

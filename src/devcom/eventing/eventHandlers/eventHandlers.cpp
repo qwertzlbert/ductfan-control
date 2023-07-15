@@ -1,6 +1,6 @@
 #include "eventHandlers.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 SimpleIntParameterHandler::SimpleIntParameterHandler(
     std::function<void(int)> callback_function, std::string parameter_name) {
@@ -33,4 +33,4 @@ bool SimpleIntParameterHandler::execute_callback(
   return success;
 }
 
-} // namespace ductfan_control
+} // namespace devcom

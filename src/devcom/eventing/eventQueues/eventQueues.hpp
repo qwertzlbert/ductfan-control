@@ -9,7 +9,7 @@
 #include <uuid/uuid.h>
 #include <vector>
 
-namespace ductfan_control {
+namespace devcom {
 
 // ABC for event queues
 class BaseEventQueue {
@@ -51,6 +51,6 @@ public:
   virtual std::string get_queue_id() { return m_event_queue_id; };
 };
 
-}; // namespace ductfan_control
+}; // namespace devcom
 
 #endif

@@ -3,7 +3,7 @@
 
 // #include "driver/ledc.h"
 
-namespace ductfan_control {
+namespace devcom {
 class BaseOutput {
 
 public:
@@ -26,6 +26,6 @@ public:
 //   void set_value(int value);
 // };
 
-} // namespace ductfan_control
+} // namespace devcom
 
 #endif

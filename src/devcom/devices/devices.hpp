@@ -7,7 +7,7 @@
 #include "outputs/outputs.hpp"
 #include "sensors/sensors.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 class BaseDevice {
 public:
@@ -59,6 +59,6 @@ public:
   void set_value(int value);
 };
 
-} // namespace ductfan_control
+} // namespace devcom
 
 #endif

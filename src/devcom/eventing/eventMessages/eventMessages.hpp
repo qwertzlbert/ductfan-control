@@ -7,7 +7,7 @@
 #include <uuid/uuid.h>
 #include <vector>
 
-namespace ductfan_control {
+namespace devcom {
 
 class BaseMessage {
 
@@ -53,6 +53,6 @@ decode_string_message(std::map<std::string, std::string> &message) {
   return message["value"];
 }
 
-}; // namespace ductfan_control
+}; // namespace devcom
 
 #endif

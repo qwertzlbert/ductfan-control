@@ -1,6 +1,6 @@
 #include "devices.hpp"
 
-namespace ductfan_control {
+namespace devcom {
 
 Button::Button(std::unique_ptr<BaseSensor> sensor) {
 
@@ -57,4 +57,4 @@ void Fan::set_value(int value) {
   m_output->set_value(value_perc);
 }
 
-} // namespace ductfan_control
+} // namespace devcom
