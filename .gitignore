@@ -3,4 +3,5 @@ epoxyduino/
 .vscode/
 catch2/
 build/
+esp/
 # CMakeFiles/
