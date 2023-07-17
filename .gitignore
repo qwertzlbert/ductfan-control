@@ -5,3 +5,4 @@ catch2/
 build/
 esp/
 # CMakeFiles/
+managed_components/
