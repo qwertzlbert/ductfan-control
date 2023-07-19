@@ -1,4 +1,4 @@
 idf_component_register(SRCS "ductsense.cpp"
                        INCLUDE_DIRS "include"
-                       REQUIRES "devcom"
+                       REQUIRES "devcom" "button"
 )

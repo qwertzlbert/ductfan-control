@@ -23,11 +23,14 @@ int StatefullButton::get_current_value() {
     change_event = true;
     break;
 
-  case BUTTON_PRESS_REPEAT:
+  case BUTTON_PRESS_REPEAT: {
     uint8_t repeat_count = iot_button_get_repeat(&m_button);
     if (repeat_count % 2 == 1) {
       change_event = true;
     }
+    break;
+  }
+  default:
     break;
   }
 

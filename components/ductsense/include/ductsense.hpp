@@ -17,7 +17,7 @@ private:
 
 public:
   StatefullButton(std::unique_ptr<button_handle_t> button_handle);
-  int get_current_value(){};
+  int get_current_value();
 };
 
 } // namespace ductfan
