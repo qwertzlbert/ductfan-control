@@ -1,6 +1,8 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include <memory>
+
 #include "DevCom.h"
 #include "ductouts.hpp"
 #include "ductsense.hpp"

@@ -12,11 +12,11 @@ namespace ductfan {
 class StatefullButton : public devcom::BaseSensor {
 
 private:
-  std::unique_ptr<button_handle_t> m_button;
+  button_handle_t m_button;
   int m_state;
 
 public:
-  StatefullButton(std::unique_ptr<button_handle_t> button_handle);
+  StatefullButton(button_config_t &button_config);
   int get_current_value();
 };
 

@@ -2,9 +2,8 @@
 
 namespace ductfan {
 
-StatefullButton::StatefullButton(
-    std::unique_ptr<button_handle_t> button_handle) {
-  m_button = std::move(button_handle);
+StatefullButton::StatefullButton(button_config_t &button_config_t) {
+  m_button = button_handle_t(&button_config_t);
   m_state = 0;
 }
 

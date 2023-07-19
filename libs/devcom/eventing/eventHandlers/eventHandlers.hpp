@@ -10,6 +10,7 @@
 // #include <uuid/uuid.h>
 #include <vector>
 
+#include "devices/devices.hpp"
 #include "eventing/eventMessages/eventMessages.hpp"
 
 namespace devcom {
@@ -22,6 +23,7 @@ public:
   virtual bool execute_callback(std::shared_ptr<BaseMessage> message) = 0;
 };
 
+// Simple handler for functions with int parameters
 class SimpleIntParameterHandler : public BaseHandler {
 private:
   std::string m_handler_id;
@@ -31,6 +33,21 @@ private:
 public:
   SimpleIntParameterHandler(std::function<void(int)> callback_function,
                             std::string parameter_name);
+  std::string get_handler_id() { return m_handler_id; };
+  bool execute_callback(std::shared_ptr<BaseMessage> message);
+};
+
+// MISSING TEST
+// Simple handler for BaseDevice
+class SimpleDeviceHandler : public BaseHandler {
+private:
+  std::string m_handler_id;
+  std::string m_parameter_name;
+  std::shared_ptr<BaseDevice> m_device;
+
+public:
+  SimpleDeviceHandler(std::shared_ptr<BaseDevice> device,
+                      std::string parameter_name);
   std::string get_handler_id() { return m_handler_id; };
   bool execute_callback(std::shared_ptr<BaseMessage> message);
 };
