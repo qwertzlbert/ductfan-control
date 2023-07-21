@@ -3,13 +3,14 @@
 namespace ductfan {
 
 StatefullButton::StatefullButton(button_config_t &button_config_t) {
-  m_button = button_handle_t(&button_config_t);
+  m_button = iot_button_create(&button_config_t);
   m_state = 0;
+  m_last_event = BUTTON_NONE_PRESS;
 }
 
 int StatefullButton::get_current_value() {
 
-  button_event_t b_event = iot_button_get_event(&m_button);
+  button_event_t b_event = iot_button_get_event(m_button);
 
   bool change_event = false;
 
@@ -18,17 +19,21 @@ int StatefullButton::get_current_value() {
   // BUTTON_PRESS_REPEAT needs to be counted to check if internal state needs to
   // change
   switch (b_event) {
-  case BUTTON_SINGLE_CLICK:
-    change_event = true;
-    break;
-
-  case BUTTON_PRESS_REPEAT: {
-    uint8_t repeat_count = iot_button_get_repeat(&m_button);
-    if (repeat_count % 2 == 1) {
+  case BUTTON_PRESS_DOWN:
+    if (m_last_event != b_event) {
+      m_last_event = b_event;
       change_event = true;
+      printf("PRESSED DOWN\n");
     }
     break;
-  }
+
+  case BUTTON_PRESS_UP:
+    if (m_last_event != b_event) {
+      m_last_event = b_event;
+      printf("PRESSED UP\n");
+    }
+    break;
+
   default:
     break;
   }

@@ -14,6 +14,7 @@ class StatefullButton : public devcom::BaseSensor {
 private:
   button_handle_t m_button;
   int m_state;
+  button_event_t m_last_event;
 
 public:
   StatefullButton(button_config_t &button_config);

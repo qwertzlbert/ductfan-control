@@ -69,10 +69,8 @@ SimpleFiFoQueue::add_event(std::unique_ptr<BaseMessage> event) {
 std::unique_ptr<BaseMessage> SimpleFiFoQueue::pop_event() {
 
   std::unique_ptr<BaseMessage> event;
-  bool success = false;
   if (is_empty() == false) {
     event = std::move(m_event_queue.at(m_tail));
-    success = true;
     if (m_tail == m_queue_size - 1) {
       m_tail = 0;
     } else {

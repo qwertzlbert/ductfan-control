@@ -5,6 +5,7 @@
 
 #include "driver/ledc.h"
 #include "esp_err.h"
+#include <math.h>
 #include <stdio.h>
 
 namespace ductfan {

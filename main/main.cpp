@@ -12,6 +12,7 @@ extern "C" void app_main(void) {
 
   // initialize eventingmanager
   // SimpleEventManager eventManager;
+  printf("Start real app.\n");
   run_application();
   printf("Restarting now.\n");
 }
