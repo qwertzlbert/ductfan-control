@@ -28,7 +28,7 @@ class SimpleHandlerQueue : public HandlerQueue {
 private:
   std::string m_handler_queue_id;
   std::vector<std::unique_ptr<BaseHandler>> m_queue;
-  int m_queue_size;
+  long unsigned int m_queue_size;
 
 public:
   SimpleHandlerQueue(int queue_size);

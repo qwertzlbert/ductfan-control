@@ -19,6 +19,7 @@ void Esp32PwmHighSpeed::set_value(int value) {
 
   u_int32_t freq = ((uint32_t)value * m_duty_resolution_factor / (uint32_t)100);
 
+  // should be moved to logging mechanism
   printf("set percent to: %d \n", value);
   printf("set freq to: %lu \n", freq);
   printf("resolution is: %lu \n", m_duty_resolution_factor);

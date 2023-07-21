@@ -19,10 +19,12 @@ void SimpleEventManager::addEvent(std::unique_ptr<BaseMessage> event,
     m_event_queues.at(event_type)->add_event(std::move(event));
   } catch (std::out_of_range &) {
     std::unique_ptr<BaseEventQueue> queue =
-        std::make_unique<SimpleFiFoQueue>(5, 1);
+        std::make_unique<SimpleFiFoQueue>(5, event_type);
     queue->add_event(std::move(event));
     m_event_queues[event_type] = std::move(queue);
   }
+  // Should be moved to logging mechanism
+  printf("Event added - manager \n");
 }
 
 void SimpleEventManager::addHandler(std::unique_ptr<BaseHandler> handler,
@@ -81,10 +83,12 @@ void SimpleEventManager::processEvent() {
   // check if handlers for event type exist, otherwise leave message alone
   if (message != nullptr) {
 
+    // should be moved to logging mechanism
+    printf("Trigger handler \n");
     std::vector<std::unique_ptr<BaseHandler>> *handlers =
         m_handler_queues.at(m_last_visited->first)->getHandlers();
 
-    for (int i = 0; i < handlers->size(); ++i) {
+    for (long unsigned int i = 0; i < handlers->size(); ++i) {
       handlers->at(i)->execute_callback(message);
     }
   }

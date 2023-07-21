@@ -15,6 +15,10 @@ SimpleFiFoQueue::SimpleFiFoQueue(int queue_size, int queue_type) {
   m_queue_type = queue_type;
 
   m_event_queue.resize(m_queue_size);
+
+  // should be moved to logging mechanism
+  printf("Added queue with size: %d and type: %d \n", m_queue_size,
+         m_queue_type);
 }
 
 bool SimpleFiFoQueue::is_empty() {
@@ -46,12 +50,18 @@ bool SimpleFiFoQueue::is_full() {
 std::tuple<bool, std::string>
 SimpleFiFoQueue::add_event(std::unique_ptr<BaseMessage> event) {
 
+  // should be moved to logging mechanism
+  printf("Trying to add message \n");
   bool success = false;
-  std::string message_id = event->get_message_id();
+  // this triggers NULLPOINTER exception
+  // std::string message_id = event->get_message_id();
+  std::string message_id = "asdf";
 
   // check if queue is full
   if (is_full() == false) {
 
+    // should be moved to logging mechanism
+    printf("Event adding at head: %d \n", m_head);
     m_event_queue.at(m_head) = std::move(event);
 
     if (m_head == m_queue_size - 1) {

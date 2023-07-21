@@ -23,6 +23,7 @@ int StatefullButton::get_current_value() {
     if (m_last_event != b_event) {
       m_last_event = b_event;
       change_event = true;
+      // should be moved to logging mechanism
       printf("PRESSED DOWN\n");
     }
     break;
@@ -30,6 +31,7 @@ int StatefullButton::get_current_value() {
   case BUTTON_PRESS_UP:
     if (m_last_event != b_event) {
       m_last_event = b_event;
+      // should be moved to logging mechanism
       printf("PRESSED UP\n");
     }
     break;

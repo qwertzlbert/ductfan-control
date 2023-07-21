@@ -6,6 +6,7 @@ void run_application(void) {
   // eventmanager
   devcom::SimpleEventManager eventing;
 
+  // should be moved to logging mechanism
   printf("PWM INIT\n");
   // pwm init
   ledc_mode_t speed_mode = LEDC_LOW_SPEED_MODE;
@@ -65,13 +66,9 @@ void run_application(void) {
 
   // init messages
   std::vector<std::vector<std::string>> button_1_on_message = {
-      {"speed", "50", "int"}};
+      {"speed", "100", "int"}};
   std::vector<std::vector<std::string>> button_1_off_message = {
-      {"speed", "0", "int"}};
-  std::unique_ptr<devcom::BaseMessage> button_1_on =
-      std::make_unique<devcom::SimpleMessage>(button_1_on_message);
-  std::unique_ptr<devcom::BaseMessage> button_1_off =
-      std::make_unique<devcom::SimpleMessage>(button_1_off_message);
+      {"speed", "10", "int"}};
 
   // setup handlers
   std::unique_ptr<devcom::BaseHandler> fan_1_handler =
@@ -80,7 +77,8 @@ void run_application(void) {
 
   int button_1_before = 0;
   int button_1_state = 0;
-  // main loop
+
+  // should be moved to logging mechanism
   printf("Start main loop\n");
   while (1) {
 
@@ -88,10 +86,17 @@ void run_application(void) {
     if (button_1_state != button_1_before) {
       // queue message
       if (button_1_state == 0) {
+        std::unique_ptr<devcom::BaseMessage> button_1_off =
+            std::make_unique<devcom::SimpleMessage>(button_1_off_message);
+
         eventing.addEvent(std::move(button_1_off), 1);
+        // should be moved to logging mechanism
         printf("turn off \n");
       } else {
+        std::unique_ptr<devcom::BaseMessage> button_1_on =
+            std::make_unique<devcom::SimpleMessage>(button_1_on_message);
         eventing.addEvent(std::move(button_1_on), 1);
+        // should be moved to logging mechanism
         printf("turn on \n");
       }
       button_1_before = button_1_state;

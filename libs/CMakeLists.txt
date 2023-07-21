@@ -4,9 +4,9 @@ project(ductfan-control LANGUAGES C CXX VERSION 0.0.1)
 message("Build testing is ${BUILD_TESTING}")
 
 # disable warnings for now to prevent getting insane
-set(CMAKE_CXX_FLAGS "-std=c++20")
+# set(CMAKE_CXX_FLAGS "-std=c++20")
 add_link_options("-fuse-ld=mold")
-# set(CMAKE_CXX_FLAGS "-std=c++20 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-std=c++20 -Wall -Wextra -Wno-unused-parameter")
 
 message("Project directory: ${PROJECT_SOURCE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}/devcom")
