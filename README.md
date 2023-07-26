@@ -46,3 +46,7 @@ try:
 and add target for ESP
 
 - add ESP specific unit tests (https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/unit-tests.html)
+
+- use singleton pattern for UUID generator and Logger
+    - logger module will create global logging object which can be configured, e.g. by using differnt loggers
+    - same for UUID generator

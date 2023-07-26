@@ -21,7 +21,7 @@ void run_application(void) {
                                     .duty_resolution = timer_resolution,
                                     .timer_num = timer,
                                     .freq_hz =
-                                        2000, // Set output frequency at 2 kHz
+                                        3000, // Set output frequency at 2 kHz
                                     .clk_cfg = LEDC_AUTO_CLK};
   ESP_ERROR_CHECK(ledc_timer_config(&ledc_timer));
 
@@ -38,13 +38,43 @@ void run_application(void) {
   ESP_ERROR_CHECK(ledc_channel_config(&ledc_channel));
 
   // button config
-  button_config_t gpio_btn_cfg = {
+  button_config_t gpio_btn_cfg_1 = {
       .type = BUTTON_TYPE_GPIO,
       .long_press_time = 0,
       .short_press_time = 0,
       .gpio_button_config =
           {
-              .gpio_num = 21,
+              .gpio_num = 32,
+              .active_level = 0,
+          },
+  };
+  button_config_t gpio_btn_cfg_2 = {
+      .type = BUTTON_TYPE_GPIO,
+      .long_press_time = 0,
+      .short_press_time = 0,
+      .gpio_button_config =
+          {
+              .gpio_num = 33,
+              .active_level = 0,
+          },
+  };
+  button_config_t gpio_btn_cfg_3 = {
+      .type = BUTTON_TYPE_GPIO,
+      .long_press_time = 0,
+      .short_press_time = 0,
+      .gpio_button_config =
+          {
+              .gpio_num = 25,
+              .active_level = 0,
+          },
+  };
+  button_config_t gpio_btn_cfg_4 = {
+      .type = BUTTON_TYPE_GPIO,
+      .long_press_time = 0,
+      .short_press_time = 0,
+      .gpio_button_config =
+          {
+              .gpio_num = 26,
               .active_level = 0,
           },
   };
@@ -60,15 +90,36 @@ void run_application(void) {
 
   // init buttons
   std::unique_ptr<devcom::BaseSensor> button_1_sense =
-      std::make_unique<ductfan::StatefullButton>(gpio_btn_cfg);
+      std::make_unique<ductfan::StatefullButton>(gpio_btn_cfg_1);
   std::shared_ptr<devcom::BaseDevice> button_1 =
       std::make_shared<devcom::Button>(std::move(button_1_sense));
 
+  std::unique_ptr<devcom::BaseSensor> button_2_sense =
+      std::make_unique<ductfan::StatefullButton>(gpio_btn_cfg_2);
+  std::shared_ptr<devcom::BaseDevice> button_2 =
+      std::make_shared<devcom::Button>(std::move(button_2_sense));
+
+  std::unique_ptr<devcom::BaseSensor> button_3_sense =
+      std::make_unique<ductfan::StatefullButton>(gpio_btn_cfg_3);
+  std::shared_ptr<devcom::BaseDevice> button_3 =
+      std::make_shared<devcom::Button>(std::move(button_3_sense));
+
+  std::unique_ptr<devcom::BaseSensor> button_4_sense =
+      std::make_unique<ductfan::StatefullButton>(gpio_btn_cfg_4);
+  std::shared_ptr<devcom::BaseDevice> button_4 =
+      std::make_shared<devcom::Button>(std::move(button_4_sense));
+
   // init messages
   std::vector<std::vector<std::string>> button_1_on_message = {
+      {"speed", "25", "int"}};
+  std::vector<std::vector<std::string>> button_2_on_message = {
+      {"speed", "50", "int"}};
+  std::vector<std::vector<std::string>> button_3_on_message = {
+      {"speed", "75", "int"}};
+  std::vector<std::vector<std::string>> button_4_on_message = {
       {"speed", "100", "int"}};
-  std::vector<std::vector<std::string>> button_1_off_message = {
-      {"speed", "10", "int"}};
+  std::vector<std::vector<std::string>> button_off_message = {
+      {"speed", "0", "int"}};
 
   // setup handlers
   std::unique_ptr<devcom::BaseHandler> fan_1_handler =
@@ -77,6 +128,15 @@ void run_application(void) {
 
   int button_1_before = 0;
   int button_1_state = 0;
+
+  int button_2_before = 0;
+  int button_2_state = 0;
+
+  int button_3_before = 0;
+  int button_3_state = 0;
+
+  int button_4_before = 0;
+  int button_4_state = 0;
 
   // should be moved to logging mechanism
   printf("Start main loop\n");
@@ -87,19 +147,79 @@ void run_application(void) {
       // queue message
       if (button_1_state == 0) {
         std::unique_ptr<devcom::BaseMessage> button_1_off =
-            std::make_unique<devcom::SimpleMessage>(button_1_off_message);
+            std::make_unique<devcom::SimpleMessage>(button_off_message);
 
         eventing.addEvent(std::move(button_1_off), 1);
         // should be moved to logging mechanism
-        printf("turn off \n");
+        printf("Button 1 - turn off \n");
       } else {
         std::unique_ptr<devcom::BaseMessage> button_1_on =
             std::make_unique<devcom::SimpleMessage>(button_1_on_message);
         eventing.addEvent(std::move(button_1_on), 1);
         // should be moved to logging mechanism
-        printf("turn on \n");
+        printf("Button 1 - turn on \n");
       }
       button_1_before = button_1_state;
+    }
+
+    button_2_state = button_2->get_value();
+    if (button_2_state != button_2_before) {
+      // queue message
+      if (button_2_state == 0) {
+        std::unique_ptr<devcom::BaseMessage> button_2_off =
+            std::make_unique<devcom::SimpleMessage>(button_off_message);
+
+        eventing.addEvent(std::move(button_2_off), 1);
+        // should be moved to logging mechanism
+        printf("Button 2 - turn off \n");
+      } else {
+        std::unique_ptr<devcom::BaseMessage> button_2_on =
+            std::make_unique<devcom::SimpleMessage>(button_2_on_message);
+        eventing.addEvent(std::move(button_2_on), 1);
+        // should be moved to logging mechanism
+        printf("Button 2 - turn on \n");
+      }
+      button_2_before = button_2_state;
+    }
+
+    button_3_state = button_3->get_value();
+    if (button_3_state != button_3_before) {
+      // queue message
+      if (button_3_state == 0) {
+        std::unique_ptr<devcom::BaseMessage> button_3_off =
+            std::make_unique<devcom::SimpleMessage>(button_off_message);
+
+        eventing.addEvent(std::move(button_3_off), 1);
+        // should be moved to logging mechanism
+        printf("Button 3 - turn off \n");
+      } else {
+        std::unique_ptr<devcom::BaseMessage> button_3_on =
+            std::make_unique<devcom::SimpleMessage>(button_3_on_message);
+        eventing.addEvent(std::move(button_3_on), 1);
+        // should be moved to logging mechanism
+        printf("Button 3 - turn on \n");
+      }
+      button_3_before = button_3_state;
+    }
+
+    button_4_state = button_4->get_value();
+    if (button_4_state != button_4_before) {
+      // queue message
+      if (button_4_state == 0) {
+        std::unique_ptr<devcom::BaseMessage> button_4_off =
+            std::make_unique<devcom::SimpleMessage>(button_off_message);
+
+        eventing.addEvent(std::move(button_4_off), 1);
+        // should be moved to logging mechanism
+        printf("Button 4 - turn off \n");
+      } else {
+        std::unique_ptr<devcom::BaseMessage> button_4_on =
+            std::make_unique<devcom::SimpleMessage>(button_4_on_message);
+        eventing.addEvent(std::move(button_4_on), 1);
+        // should be moved to logging mechanism
+        printf("Button 4 - turn on \n");
+      }
+      button_4_before = button_4_state;
     }
 
     eventing.processEvent();
