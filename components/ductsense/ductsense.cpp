@@ -48,4 +48,89 @@ int StatefullButton::get_current_value() {
   return m_state;
 }
 
+FanTachoSensor::FanTachoSensor(int gpio_pin, int max_speed) {
+
+  m_speed = 0;
+  m_pin_number = gpio_pin;
+  m_max_speed = max_speed;
+  m_pcnt_unit = NULL;
+  m_pcnt_chan = NULL;
+  m_taskHandle = NULL;
+
+  pcnt_unit_config_t unit_config = {
+      .low_limit = -1,
+      .high_limit = m_max_speed,
+  };
+
+  ESP_ERROR_CHECK(pcnt_new_unit(&unit_config, &m_pcnt_unit));
+
+  pcnt_chan_config_t chan_a_config = {
+      .edge_gpio_num = m_pin_number,
+      .level_gpio_num = -1,
+  };
+
+  ESP_ERROR_CHECK(pcnt_new_channel(m_pcnt_unit, &chan_a_config, &m_pcnt_chan));
+
+  ESP_ERROR_CHECK(
+      pcnt_channel_set_edge_action(m_pcnt_chan, PCNT_CHANNEL_EDGE_ACTION_HOLD,
+                                   PCNT_CHANNEL_EDGE_ACTION_INCREASE));
+}
+
+void FanTachoSensor::update_speed_task() {
+  static portMUX_TYPE my_spinlock = portMUX_INITIALIZER_UNLOCKED;
+
+  int pulse_count = 0;
+
+  printf("Enable clear and start counter \n");
+  // enable clear and start counter
+  ESP_ERROR_CHECK(pcnt_unit_enable(m_pcnt_unit));
+  ESP_ERROR_CHECK(pcnt_unit_clear_count(m_pcnt_unit));
+  ESP_ERROR_CHECK(pcnt_unit_start(m_pcnt_unit));
+
+  // sleep for 10s
+  vTaskDelay(10000 / portTICK_PERIOD_MS);
+
+  printf("Stop get count and disable counter \n");
+  // stop counter get counter value and disable counter
+  ESP_ERROR_CHECK(pcnt_unit_stop(m_pcnt_unit));
+  ESP_ERROR_CHECK(pcnt_unit_get_count(m_pcnt_unit, &pulse_count));
+  ESP_ERROR_CHECK(pcnt_unit_disable(m_pcnt_unit));
+
+  // entering critical region as we are updating the speed value
+  taskENTER_CRITICAL(&my_spinlock);
+  // update rpm value
+  m_speed = pulse_count * 6;
+  taskEXIT_CRITICAL(&my_spinlock);
+
+  // delete the task after it finished
+  vTaskDelete(NULL);
+}
+
+void FanTachoSensor::start_update_speed_task_wrapper(void *_this) {
+
+  FanTachoSensor *sensor = reinterpret_cast<FanTachoSensor *>(_this);
+  sensor->update_speed_task();
+}
+
+int FanTachoSensor::get_current_value() {
+
+  // get state of task
+  eTaskState state = eDeleted;
+  if (m_taskHandle != NULL) {
+    state = eTaskGetState(m_taskHandle);
+  }
+
+  // only run when no task is currently running
+  // NULL = not existing
+  // 4 == DELETED
+  if (state == eDeleted) {
+
+    // spawn background task with 4096 bytes as stack
+    xTaskCreate(this->start_update_speed_task_wrapper, "Fan - Update Speed",
+                4096, this, 10, &m_taskHandle);
+  }
+
+  return m_speed;
+}
+
 } // namespace ductfan

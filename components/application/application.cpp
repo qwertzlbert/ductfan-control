@@ -14,6 +14,8 @@ void run_application(void) {
   ledc_timer_bit_t timer_resolution = LEDC_TIMER_12_BIT;
   ledc_channel_t channel_fan_1 = LEDC_CHANNEL_0;
   int gpio_fan_1 = 16;
+  int gpio_fan_in = 17;
+  int fan_1_max_speed = 10000;
 
   // timer config
   // Prepare and then apply the LEDC PWM timer configuration
@@ -84,7 +86,7 @@ void run_application(void) {
       std::make_unique<ductfan::Esp32PwmHighSpeed>(speed_mode, channel_fan_1,
                                                    timer_resolution);
   std::unique_ptr<devcom::BaseSensor> fan_1_in =
-      std::make_unique<devcom::DummySensor>();
+      std::make_unique<ductfan::FanTachoSensor>(gpio_fan_in, fan_1_max_speed);
   std::shared_ptr<devcom::BaseDevice> fan_1 =
       std::make_shared<devcom::Fan>(std::move(fan_1_in), std::move(fan_1_out));
 
@@ -224,7 +226,11 @@ void run_application(void) {
 
     eventing.processEvent();
 
-    // delay required for RTOS (?)
-    vTaskDelay(10 / portTICK_PERIOD_MS);
+    // get current fan speed
+    int current_speed = fan_1->get_value();
+    printf("Current Fan speed: %d rpm \n", current_speed);
+
+    // delay required for RTOS preemtion
+    vTaskDelay(50 / portTICK_PERIOD_MS);
   }
 }

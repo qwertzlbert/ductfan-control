@@ -50,3 +50,5 @@ and add target for ESP
 - use singleton pattern for UUID generator and Logger
     - logger module will create global logging object which can be configured, e.g. by using differnt loggers
     - same for UUID generator
+
+- Dont forget to fix error handling (ESP_ERROR_CHECK flood is for testing only)
