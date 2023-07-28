@@ -52,3 +52,5 @@ and add target for ESP
     - same for UUID generator
 
 - Dont forget to fix error handling (ESP_ERROR_CHECK flood is for testing only)
+
+https://devblogs.microsoft.com/cppblog/clear-functional-c-documentation-with-sphinx-breathe-doxygen-cmake/

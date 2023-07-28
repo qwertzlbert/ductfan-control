@@ -71,9 +71,15 @@ FanTachoSensor::FanTachoSensor(int gpio_pin, int max_speed) {
 
   ESP_ERROR_CHECK(pcnt_new_channel(m_pcnt_unit, &chan_a_config, &m_pcnt_chan));
 
-  ESP_ERROR_CHECK(
-      pcnt_channel_set_edge_action(m_pcnt_chan, PCNT_CHANNEL_EDGE_ACTION_HOLD,
-                                   PCNT_CHANNEL_EDGE_ACTION_INCREASE));
+  ESP_ERROR_CHECK(pcnt_channel_set_edge_action(
+      m_pcnt_chan, PCNT_CHANNEL_EDGE_ACTION_INCREASE,
+      PCNT_CHANNEL_EDGE_ACTION_HOLD));
+
+  // glich correction is enough for my fan
+  pcnt_glitch_filter_config_t filter_config = {
+      .max_glitch_ns = 1000,
+  };
+  ESP_ERROR_CHECK(pcnt_unit_set_glitch_filter(m_pcnt_unit, &filter_config));
 }
 
 void FanTachoSensor::update_speed_task() {
@@ -87,8 +93,8 @@ void FanTachoSensor::update_speed_task() {
   ESP_ERROR_CHECK(pcnt_unit_clear_count(m_pcnt_unit));
   ESP_ERROR_CHECK(pcnt_unit_start(m_pcnt_unit));
 
-  // sleep for 10s
-  vTaskDelay(10000 / portTICK_PERIOD_MS);
+  // sleep for 1s
+  vTaskDelay(1000 / portTICK_PERIOD_MS);
 
   printf("Stop get count and disable counter \n");
   // stop counter get counter value and disable counter
@@ -99,7 +105,7 @@ void FanTachoSensor::update_speed_task() {
   // entering critical region as we are updating the speed value
   taskENTER_CRITICAL(&my_spinlock);
   // update rpm value
-  m_speed = pulse_count * 6;
+  m_speed = pulse_count;
   taskEXIT_CRITICAL(&my_spinlock);
 
   // delete the task after it finished

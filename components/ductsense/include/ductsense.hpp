@@ -24,6 +24,11 @@ public:
   int get_current_value();
 };
 
+// need to add factor for signal per turn (some create 1 others 2, etc.)
+// also need to add signal factor as some fans will put out
+// rpm = signal/60hz ---> signal/s == rpm
+// others will only create 1 signal per turn so that
+// signal/s x 60 = rpm
 class FanTachoSensor : public devcom::BaseSensor {
 
 private:
